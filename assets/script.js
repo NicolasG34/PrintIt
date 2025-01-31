@@ -34,7 +34,7 @@ arrowRight.addEventListener("click", () => {
 
 function createDots(){
 	const dots = document.querySelector(".dots");	
-   for (let index = 0; index < slides.length; index++) {
+   for (let i = 0; i < slides.length; i++) {
 	   const dot= document.createElement("div");
 	   dot.setAttribute("class", "dot");
 	   dots.appendChild(dot);
