@@ -18,59 +18,70 @@ const slides = [
 	}
 ]
 
-const numbersOfSlide = slides.length;
 let position = 0;
 
-createDots();
-selectDot();
+const bannerSlides = document.querySelector(".banner-img");
+const bannerTagLine = document.querySelector("#banner p");
+
+const arrowLeft = document.querySelector(".arrow_left");
+const arrowRight = document.querySelector(".arrow_right");
 
 
-const arrowLeft = document.querySelector('.arrow_left');
-arrowLeft.addEventListener("click", () => {
-	console.log("Vous avez cliqué sur la flèche gauche")
-	position--;
-	const element = slides[position];
-	const img = document.querySelector(".banner-img");
-	img.setAttribute("src", "./assets/images/slideshow/" + element.image);
-	const text = document.querySelector(".banner-txt");
-	text.innerHTML = element.tagLine;
-});
-
-const arrowRight = document.querySelector('.arrow_right');
-arrowRight.addEventListener("click", () => {
-	console.log("Vous avez cliqué sur la flèche droite")
-	position++;
-	const element = slides[position];
-	const img = document.querySelector(".banner-img");
-	img.setAttribute("src", "./assets/images/slideshow/" + element.image);
-	const text = document.querySelector(".banner-txt");
-	text.innerHTML = element.tagLine;
-});
+const dotsSlides = document.querySelector(".dots");
 
 
-function createDots() {
-	const dots = document.querySelector(".dots");
-	for (let i = 0; i < slides.length; i++) {
-		const dot = document.createElement("div");
-		dot.setAttribute("class", "dot");
-		dots.appendChild(dot);
-	}
-}
+arrowLeft.addEventListener("click", previousImage)
+arrowRight.addEventListener("click", nextImage)
 
-function selectDot() {
-	const dotList = document.querySelectorAll(".dot");
-	for (let i = 0; i < dotList.length; i++) {
 
-		const dot = dotList[i];
-		if (i == position) {
-			dot.classList.add('dot_selected');
-		}
-		else {
-			dot.classList.remove('dot_selected');
-		}
-
-	}
+//création des dots
+for (let i = 0; i < slides.length; i++) {
+	let dot = document.createElement('div')
+	dot.classList.add("dot")
+	dotsSlides.appendChild(dot);
 }
 
 
+//affichage du dot sélectionné
+let dotSelected = document.querySelectorAll(".dot");
 
+dotSelected[position].classList.add("dot_selected");
+
+//importation des images et des taglines
+function showImage() {
+	bannerSlides.src = `./assets/images/slideshow/${slides[position].image}`;
+	bannerTagLine.innerHTML = slides[position].tagLine;
+}
+
+//carroussel pour la flèche de gauche
+function previousImage() {
+
+	dotSelected[position].classList.remove("dot_selected");
+	if (position <= 0) {
+		position = slides.length - 1;
+	}
+
+	else {
+		position--;
+	}
+
+	dotSelected[position].classList.add("dot_selected");
+	showImage()
+}
+
+//carroussel pour la flèche de droite
+function nextImage() {
+
+	dotSelected[position].classList.remove("dot_selected");
+
+	if (position >= slides.length - 1) {
+		position = 0;
+	}
+
+	else {
+		position++;
+	}
+
+	dotSelected[position].classList.add("dot_selected");
+	showImage()
+}
